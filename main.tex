@@ -22,11 +22,8 @@
 \]
 
 \begin{abstract}
-    
+    A critical subject at the heart of geometry is the study of the size. Whether it be lengths, areas, or volumes, the size of a shape is central to its nature. The n-volume formula provides a method for finding the size of a shape, or its "n-volume". In Euclidean space, this formula can be used to derive the basic formulae for the sizes of shapes, such as the famous "$2\pi r$". However, the formula is not limited to Euclidean space. It can be applied to other spaces in order to explore how the geometries of those spaces affect size. In this paper, both uses for the n-volume formula are introduced and explored.
 \end{abstract}
-
-\section{Introduction}
-
 
 \newpage
 \tableofcontents
@@ -436,6 +433,11 @@ Summing them now gives the overall metric:
  0 & 0 & \frac{\rho^2}{h^2}
 \end{bmatrix}
 \]
+The determinant of this matrix is $(1-\frac{z}{h})^2 \frac{\rho^4}{h^2}$. Now, taking the square root gives $(1-\frac{z}{h})\frac{\rho^2}{h}$. Plugging this into the n-volume formula gives:
+\[
+\int_S \star ((1-\frac{z}{h})\frac{\rho^2}{h})=\int_0^h \int_0^{2\pi} \int_0^R (1-\frac{z}{h})\frac{\rho^2}{h} d\rho \wedge d\theta \wedge dz = \frac{1}{3}\pi R^2h
+\]
+Which is exactly the expected volume.
 
 \newpage
 
@@ -693,30 +695,66 @@ ds^2 = \frac{1}{f(r)}\frac{R^2}{R^2+z^2} dz \otimes dz + (R^2 + z^2) d\Theta \ot
 \]
 The determinant of this metric, square-rooted, and plugged into the n-volume formula yields:
 \[
-\int_0^h\int_0^{2\pi} R\sqrt{\frac{1}{f(r)}}) dz \wedge d\Theta
+\int_0^h\int_0^{2\pi} R\sqrt{\frac{1}{f(r)}} dz \wedge d\Theta
 \]
+However, the form $f(r)$ takes will be somewhat different, as $r$ is no longer a coordinate of the manifold. In terms of $z$ and $\theta$, $r=\sqrt{z^2 + R^2}$.
 
 \subsubsection{Schwartzschild Space}
-\subsubsection{de Sitter Space}
-\subsubsection{anti-de Sitter Space}
+The form of $f(r)$ for Schwartzschild space is $1-\frac{2GM}{r}$. For our new coordinates, this is $f(z,\theta) = 1-\frac{2GM}{\sqrt{z^2 + R^2}}$. Therefore, the surface area of the cylinder is:
+\[
+R\int_0^h\int_0^{2\pi}\sqrt{\frac{1}{1-\frac{2GM}{z^2+R^2}}} dz \wedge d\Theta
+\]
+Taking R to be $3GM$ (it cannot be less than $2GM$, or else the cylinder will be within the event horizon) and graphing the surface area as a function of $h$ gives:
+\[
+\includegraphics[scale=0.25]{schwartzschildcylinder.png}
+\]
+As always, Schwartzschild space seems to stretch space, increasing the surface area of the cylinder.
 
-\newpage
-\subsection{The Cone}
-\subsubsection{Standard Metric}
-\subsubsection{Schwartzschild Space}
 \subsubsection{de Sitter Space}
-\subsubsection{anti-de Sitter Space}
+For de Sitter space, the cylinder surface area is
+\[
+R \int_0^h\int_0^{2\pi} \sqrt{\frac{1}{1-\frac{z^2+R^2}{\alpha^2}}} dz \wedge d\Theta
+\]
+Again, taking the radius to be $3GM$ yields:
+\[
+\includegraphics[scale=0.25]{desittercylinder.png}
+\]
+Here, the leftmost (red), middle (blue), and rightmost (green) curves represent $\alpha$ values of 5, 10, and 15, respectively. Again, the black, dashed line represents the Euclidean limit. Clearly, the higher the $\alpha$ value, the closer the space is to the Euclidean limit. Also, the boundary on the space is evident, where the surface area is undefined past the height limit.
+
+\subsubsection{Anti-de Sitter Space}
+For anti-de Sitter space, on the other hand, the cylinder's surface area is
+\[
+R \int_0^h\int_0^{2\pi} \sqrt{\frac{1}{1+\frac{z^2+R^2}{\alpha^2}}} dz \wedge d\Theta
+\]
+Now graphing the surface area as a function of height (for a radius of $3GM$) yields:
+\[
+\includegraphics[scale=0.25]{antidesittercylinder.png}
+\]
+Here, the rightmost (red), middle (blue), and leftmost (green) curves represent $\alpha$ values of 5, 10, and 15, respectively. As always, the black, dashed line represents the Euclidean limit. As before, anti-de Sitter space shrinks space, making surface areas smaller.
 
 \newpage
 \section{Results}
-
+The size of a manifold can be found using the "n-volume formula"
+\[
+\int_S \star \sqrt{det f^{\star}g}
+\]
+It can be used to quickly find the length of a path, area of a surface, or volume of a space. Additionally, the formula applies outside of Euclidean space. It can be used to show that the Schwartzschild metric stretches space, as does the de Sitter metric. On the other hand, the anti-de Sitter metric contracts space.
 
 \newpage
 \appendix
 \section{The Spaces Considered}
+This appendix serves to explain the basis of each space considered in this paper. It uses no mathematics, but is intended instead to provide a basic background of each space.
+
 \subsection{Euclidean Space}
+Euclidean space is the space usually explored in standard geometry. It is a completely flat space. Euclidean space serves as the basis of comparison for the other spaces, as it is the space we are used to, and often take for granted.
+
 \subsection{Schwartzschild Space}
+Schwartzschild space originated as a solution to the Einstein Field Equations from General Relativity. It is the space created by a single, stationary, non-rotating point mass, most often a black hole.
+
 \subsection{de Sitter Space}
+de Sitter space describes a space with constant, positive scalar curvature. Cosmological evidence suggests that our universe itself is a de Sitter space. It is a submanifold described by the hyperboloid of one sheet.
+
 \subsection{Anti-de Sitter Space}
+Anti-de Sitter space described a space with constant, negative scalar curvature. It is of great use in String Theory, where its properties are used to described particle interactions.
 
 \end{document}
