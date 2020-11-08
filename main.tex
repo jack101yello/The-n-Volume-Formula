@@ -3,12 +3,15 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{appendix}
+\usepackage{graphicx}
 
 \title{The n-Volume Formula}
 \author{Jack Hudson}
 \date{September 2020}
 
-% Convert to Two Separate Papers
+% Write cylinder and cone volumes
+% Write sphere surfaces and volumes
+% 
 
 \begin{document}
 
@@ -17,6 +20,10 @@
 \[
 \int_S \star \sqrt{f^{\star}g}
 \]
+
+\begin{abstract}
+    
+\end{abstract}
 
 \section{Introduction}
 
@@ -255,7 +262,7 @@ The square root of the determinant of this metric is then:
 \[
 \sqrt{R^2t^2(R^2+h^2)} = Rt\sqrt{R^2+h^2}
 \]
-This $\sqrt{R^2+h^2}$ has a straightforward geometric interpritation: the slant height! It may be easier, then, to replace that radical with the slant height $l$, which will be used along with $R$ to differentiate between different cones. The n-volume formula is then:
+This $\sqrt{R^2+h^2}$ has a straightforward geometric interpretation: the slant height! It may be easier, then, to replace that radical with the slant height $l$, which will be used along with $R$ to differentiate between different cones. The n-volume formula is then:
 \[
 \int_S \star Rtl = \int_1^0\int_0^{2\pi} Rtl d\theta \wedge dt = -\int_0^1\int_0^{2\pi} Rtl d\theta \wedge dt
 \]
@@ -344,71 +351,101 @@ Splitting up this integral, it is easy to see that the first term will be 0. (Th
 Which is exactly the volume within a torus.
 
 \subsubsection{The Cylinder}
-Using the Jacobian method\footnote{See [Appendix A]}, the cylinder's volume is exceedingly easy to compute. The parameterizing map is:
+The parameterizing map for the interior of the cylinder is
 \[
-f(r, \theta, z): (x, y, z) \rightarrow (r cos \theta, r sin \theta, z)
+f(\rho, \theta, z): (x, y, z) \rightarrow (\rho cos \theta, \rho sin \theta, z)
+\]
+This makes the coordinate differentials:
+\[
+dx = cos(\theta) d\rho - \rho sin(\theta) d\theta, dy = sin(\theta) d\rho + \rho cos(\theta) d\theta, dz = dz
 \]
 \[
-r \in [0, R], \theta \in [0, 2\pi), z \in [0, h]
+dx \otimes dx = cos^2 \theta d\rho \otimes d\rho + \rho^2 sin^2 \theta d\theta \otimes d\theta - 2\rho cos\theta sin\theta d\rho \otimes d\theta
 \]
-The Jacobian matrix is, then:
 \[
-J_{ij} = \begin{bmatrix}
-cos \theta & -r sin \theta & 0 \\
-sin \theta & r cos \theta & 0 \\
-0 & 0 & 1
-\end{bmatrix}
+dy \otimes dy = sin^2 \theta d\rho \otimes d\rho + \rho^2 cos^2 \theta d\theta \otimes d\theta + 2\rho cos\theta sin\theta d\rho \otimes d\theta
 \]
-Making the Jacobian $J = r cos^2 \theta + r sin^2 \theta = r$. The n-volume formula is then:
 \[
-\int_S \star J = \int_0^h\int_0^{2\pi}\int_0^R r dr \wedge d\theta \wedge dz = \pi R^2 h
+dz \otimes dz = dz \otimes dz
 \]
-Exactly as expected.
+Therefore, the metric is
+\[
+ds^2 = (cos^2 \theta + sin62 \theta) d\rho \otimes d\rho + (sin^2 \theta + cos^2 \theta) \rho^2 d\theta \otimes d\theta + dz \otimes dz = d\rho \otimes d\rho + \rho^2 d\theta \otimes d\theta + dz \otimes dz
+\]
+Finding the determinant is, then, simply $\rho^2$, meaning that the n-volume formula gives
+\[
+\int_S \star \rho = \int_0^h\int_0^{2\pi}\int_0^R \rho d\rho \wedge d\theta \wedge dz = \pi R^2h
+\]
+Exactly the expected volume of the cylinder.
 
 \subsubsection{The Cone}
-The final "normal" computation (normal here meaning in 3 dimensions and fewer, in flat space) we will undergo is the volume of the cone. Again, the Jacobian method will be used for its computational simplicity.
-
-Our parameterizing map will be:
+The parameterizing map for the interior of the cone is
 \[
-f(r, \theta, z): (x, y, z) \rightarrow ((1-\frac{z}{h})Rr cos\theta, (1-\frac{z}{h})Rr sin\theta, z)
+f(\rho, \theta, z): (x, y, z) \rightarrow ((1-\frac{z}{h})\rho cos \theta, (1-\frac{z}{h})\rho sin \theta, z)
+\]
+This gives the coordinate differentials
+\[
+dx = (1-\frac{z}{h}) cos\theta d\rho - (1-\frac{z}{h})\rho sin\theta d\theta - \frac{\rho}{h}cos\theta dz
 \]
 \[
-r \in [0, 1], \theta \in [0, 2\pi), z \in [0, h]
+dy = (1-\frac{z}{h}) sin\theta d\rho + (1-\frac{z}{h})\rho cos\theta d\theta - \frac{\rho}{h}sin\theta dz
 \]
-Here, we have chosen a slightly different convention for $r$. The issue is that the distance one can move from the $r=0$ line depends on where they are in the cone. At the cone's point ($z=h$), $r$ is stuck at 0. At the base ($z=0$), $r$ can range from 0 to $R$. Therefore, we shall take the convention that $r$ now ranges from 0 to 1, and it represents the percentage of the possible distance from the $r=0$ line. Therefore, the surface of the cone is defined by $r=1$. As it turns out, this makes little difference in the calculation, it simply changes the integration bounds.
-
-The Jacobian matrix is given by
 \[
-J_{ij} = \begin{bmatrix}
-(1-\frac{z}{h})Rcos \theta & -(1-\frac{z}{h})Rr sin \theta & 0 \\
-(1-\frac{z}{h})Rsin \theta & (1-\frac{z}{h})Rr cos \theta & 0 \\
-0 & 0 & 1
+dz = dz
+\]
+\[
+dx \otimes dx = \begin{bmatrix}
+ (1-\frac{z}{h})^2 cos^2 \theta &
+  &
+  \\
+  &
+ (1-\frac{z}{h})^2 \rho^2 sin^2 \theta &
+  \\
+  &
+  &
+ \frac{\rho^2}{h^2} cos^2 \theta
 \end{bmatrix}
 \]
-Giving a Jacobian of $J=(1-\frac{z}{h})Rr$. Therefore, the n-volume formula yields:
 \[
-\int_S \star J = \int_0^h\int_0^{2\pi}\int_0^1 (1-\frac{z}{h})Rr dr \wedge d\theta \wedge dz
+dy \otimes dy = \begin{bmatrix}
+ (1-\frac{z}{h})^2 sin^2 \theta &
+  &
+  \\
+  &
+ (1-\frac{z}{h})^2 \rho^2 cos^2 \theta &
+  \\
+  &
+  &
+ \frac{\rho^2}{h^2} sin^2 \theta
+\end{bmatrix}
 \]
 \[
-= \int_0^h\int_0^{2\pi}\int_0^1 Rr dr \wedge d\theta \wedge dz - \int_0^h\int_0^{2\pi}\int_0^1 \frac{z}{h} Rr dr \wedge d\theta \wedge dz
+dz \otimes dz = \begin{bmatrix}
+ 0 &   &   \\
+   & 0 &   \\
+   &   & 1 \\
+\end{bmatrix}
 \]
-\[
-= \pi R^2 h - \frac{1}{2} \pi R^2 h = \frac{1}{2} \pi R^2 h
-\]
-The volume of the cone is, then, exactly half the volume of the cylinder that it would fit inside.
+Because our coordinate system (cylindrical coordinates) is orthogonal, the off-diagonal terms of the metric must be 0, meaning that we can ignore the individual off-diagonal terms of the $dx \otimes dx$, $dy \otimes dy$, and $dz \otimes dz$ matrices. They may not be 0, but all three matrices must have off-diagonal terms that sum to zero, so explicitly writing them out would be useless.
 
-\subsubsection{The One-Sheeted Hyperboloid}
-
+Summing them now gives the overall metric:
+\[
+\eta = \begin{bmatrix}
+ 1-\frac{z}{h} & 0 & 0 \\
+ 0 & (1-\frac{z}{h}) \rho^2 & 0 \\
+ 0 & 0 & \frac{\rho^2}{h^2}
+\end{bmatrix}
+\]
 
 \newpage
 
 \section{Curved Space}
-Now that the n-Volume formula has been proven to work in the simplest of cases, it can be applied to more exotic scenarios: curved spaces.
+Now that the n-Volume formula has been proven to work in the simplest of cases, it can be applied to more exotic scenarios: curved spaces\footnote{See [Appendix A] for descriptions of the spaces we consider here}.
 
 \subsection{Pullback of a Curved Metric}
 The means by which a curved metric is pulled back is essentially identical to the flat (Euclidean) metric. First, the metric is explicitly identified:
 \[
-g = X(x,y,z) dx \otimes dx + Y(x,y,z) dy \otimes dy + Z(x,y,z) dz \otimes dz
+ds^2 = X(x,y,z) dx \otimes dx + Y(x,y,z) dy \otimes dy + Z(x,y,z) dz \otimes dz
 \]
 Then, the parameterizing map $f$ is also explicitly defined, as well as all of the parametrized coordinates. The coordinate differentials $dx$, $dy$, and $dz$ are then identified in terms of the parameterized coordiantes, and the metric is then found in terms of those coordinates. Finally, the metric is inserted into the n-volume formula, and all that remains to be done is the evaluation of the resulting integral.
 
@@ -417,11 +454,11 @@ Then, the parameterizing map $f$ is also explicitly defined, as well as all of t
 \subsubsection{Standard Metric}
 Many space-time metrics from General Relativity (specifically spherically symmetric ones) take the form
 \[
-g = -f(r) dt \otimes dt + f(r)^{-1} dr \otimes dr + r^2 d\Omega_2 \otimes d\Omega_2
+ds^2 = -f(r) dt \otimes dt + f(r)^{-1} dr \otimes dr + r^2 d\Omega_2 \otimes d\Omega_2
 \]
 Because we are only considering the sizes of shapes, time is unchanging, reducing the standard metric to
 \[
-g = f(r)^{-1} dr \otimes dr + r^2 d\Omega_2 + d\Omega_2
+ds^2 = f(r)^{-1} dr \otimes dr + r^2 d\Omega_2 + d\Omega_2
 \]
 Because many metrics take this form, it is a much more reasonable endeavor to work out the lengths, areas, and volumes of shapes in terms of any general $f(r)$, and then to simply insert the proper $f(r)$ for any particular space and evaluate, once the specific space is known. Below is a table of $f(r)$ expressions and the spaces they represent:
 \[
@@ -441,7 +478,7 @@ Now, to find the path length. A general path in polar coordinates can be represe
 \]
 Here, $\mu$ represents the map, as $f$ is already taken, as part of the metric. Speaking of, the metric is the standard metric
 \[
-g = \frac{1}{f(r)} dr \otimes dr + r^2 d\Omega_2 \otimes \Omega_2
+ds^2 = \frac{1}{f(r)} dr \otimes dr + r^2 d\Omega_2 \otimes \Omega_2
 \]
 The coordinate differentials are the straightforward:
 \[
@@ -449,11 +486,11 @@ dx = (R'(t))^2 dt, dy = (\Theta'(t))^2 dt, dz = (\Phi'(t))^2 dt
 \]
 Therefore, the metric is:
 \[
-g = (\frac{1}{f(r)}(R'(t))^2 + r^2 (\Theta'(t))^2 + r^2 sin^2(\Theta(t))(\Phi'(t))^2) dt \otimes dt
+ds^2 = (\frac{1}{f(r)}(R'(t))^2 + r^2 (\Theta'(t))^2 + r^2 sin^2(\Theta(t))(\Phi'(t))^2) dt \otimes dt
 \]
 This has only one element as a matrix, yielding a straightforward determinant. The n-volume formula is therefore:
 \[
-\int_S \sqrt{(\frac{1}{f(r)}(R'(t))^2 + r^2 (\Theta'(t))^2 + r^2 sin^2(\Theta(t))(\Phi'(t))^2)} dt
+\int_S \sqrt{\frac{1}{f(r)}(R'(t))^2 + r^2 (\Theta'(t))^2 + r^2 sin^2(\Theta(t))(\Phi'(t))^2} dt
 \]
 However, it is rare that a path is specified with angles as functions of time, except for very specific circumstances. Therefore, it is useful to convert now to Cartesian coordinates, via the definitions:
 \[
@@ -462,26 +499,203 @@ r = \sqrt{x^2 + y^2 + z^2}, \theta = arctan(\frac{y}{x}), \phi = arctan(\frac{\s
 Plugging these definitions into the formula whole, however, would result in a monstrously long expression, and so it is simply necessary to convert on a case-by-case basis. The generalized length formula we have now cannot be analyzed any further without specifying a particular spacial geometry.
 
 \subsubsection{Schwartzschild Space}
+The $f$ expression for Schwartzschild space is $1-\frac{2GM}{r}$. Inserting this into the standard metric path length formula yields:
+\[
+\int_S \sqrt{\frac{1}{1-\frac{2GM}{R(t)}}(R'(t))^2 + (R(t))^2 (\Theta'(t))^2 + (R(t))^2 sin^2(\Theta(t))(\Phi'(t))^2} dt
+\]
+It is difficult to see clearly how geometry is affected by this strange space. Therefore, two examples will be considered: the line $x+y=3GM$, and the circle with radius $3GM$. Recall that the Schwartzschild metric breaks down at radii closer than $2GM$, as that is the location of a singularity usually corresponding to the event horizon of a black hole. This means that any structure considered with this metric must lay outside of the event horizon, or else a different metric--the interior solution--would be needed.
+
+First, for the line $x+y=3GM$. Using the parameterization $x=t$, we get:
+\[
+x=t, y=3GM-t, z=0
+\]
+Converting to spherical coordinates gives
+\[
+R(t) = \sqrt{t^2 + (3GM-t)^2}, R'(t) = \frac{2t - 3GM}{\sqrt{9G^2M^2 - 6GMt + 2t^2}}
+\]
+\[
+\Theta(t) = arctan(\frac{3GM-t}{t}), \Theta'(t) = \frac{3GM}{9G^2m^2 - 6GM + 2t^2}
+\]
+\[
+\Phi(t) = \frac{\pi}{2}, \Phi'(t) = 0
+\]
+For sake of simplification, we shall use the definition $\Delta(t) = R^2(t) = 9G^2M^2 - 6GMt + 2t^2$. Therefore, the path's length is:
+\[
+\int_S \sqrt{\frac{1}{1-\frac{2GM}{\sqrt{t^2 + (3GM-t)^2}}}
+(\frac{(2t-3GM)^2}{\Delta(t)})
++\frac{9G^2M^2}{\Delta(t)}} dt
+\]
+This is difficult to analyze as it is, but graphing the length of the path as a function of $t$ (the x-distance along the path) yields:
+\[
+\includegraphics[scale=0.25]{schwartzchildpathlength.png}
+\]
+Here, all distances are measured in units where $MG$ is $1$. The dashed line is the path length in Euclidean space, for comparison. It is much easier to see graphically that Schwartzschild space appears to stretch out the path, proportionally to the distance from the singularity causing the curvature. This is somewhat intuitive within General Relativity, as the black hole modeled by the Schwartzschild metric would be seen as bending space due to its mass, which would stretch out the path.
+
+As for the circle of radius $3GM$, its representation in spherical coordinates is
+\[
+R(t) = 3GM, R'(t) = 0
+\]
+\[
+\Theta(t) = t, \Theta'(t) = 1
+\]
+\[
+\Phi(t) = \frac{\pi}{2}, \Phi'(t) = 0
+\]
+The path length is, then:
+\[
+\int_0^{2\pi} \sqrt{\frac{1}{1-\frac{2GM}{3GM}}(0)^2 + (3GM)^2 (1)^2 + (3GM)^2 sin^2(t)(0)^2} dt
+\]
+The fact that both the radius and $\Phi(t)$ are constant cancels out two of the three terms in the radicand. Notice that because the radius is constant, $f(t)$ will be removed from the expression altogether. This means that the space simply does not affect the circumference of the circle. Finishing out the calculation yields:
+\[
+\int_0^{2\pi} \sqrt{(3GM)^2} dt = \int_0^{2\pi} 3GM dt = 6\pi GM
+\]
+This is exactly $2\pi R$, meaning that the curvature of space has no bearing on the circumference of the circle, even though straight lines through the space do have difference lengths than in the Euclidean limit.
+
 \subsubsection{de Sitter Space}
+de Sitter space has $f(r) = 1 - \frac{r^2}{\alpha^2}$. This gives a path length of
+\[
+\int_S \sqrt{\frac{1}{1 - \frac{r^2}{\alpha^2}}(R'(t))^2 + r^2 (\Theta'(t))^2 + r^2 sin^2(\Theta(t))(\Phi'(t))^2} dt
+\]
+Now, the path along the line $x+y = 3GM$ will be considered again\footnote{The circle has already been proven independent of curvature, so it will not be calculated again.}. The coordinates are, of course:
+\[
+R(t) = \sqrt{t^2 + (3GM-t)^2}, R'(t) = \frac{2t - 3GM}{\sqrt{9G^2M^2 - 6GMt + 2t^2}}
+\]
+\[
+\Theta(t) = arctan(\frac{3GM-t}{t}), \Theta'(t) = \frac{3GM}{9G^2m^2 - 6GM + 2t^2}
+\]
+\[
+\Phi(t) = \frac{\pi}{2}, \Phi'(t) = 0
+\]
+Giving the length
+\[
+\int_S \sqrt{\frac{1}{1-\frac{r^2}{\alpha^2}}
+(\frac{(2t-3GM)^2}{\Delta(t)})
++ \frac{9G^2M^2}{\Delta(t)}} dt
+\]
+Again, this formula is not simple to analyze. However, graphing the length of the path gives:
+\[
+\includegraphics[scale=0.25]{desitterpathlength.png}
+\]
+Here, $\alpha=1$ is the rightmost curve (in red), $\alpha=10$ is the leftmost curve (in green), and $\alpha=100$ is the central curve (in blue). The black, dotted line is the Euclidean path length, for comparison. At lower values of $\alpha$, the path appears to be condensed, while for values, the path is stretched, as in Schwartzschild space. It can be seen clearly that for any $\alpha$, as the path gets shorter and shorter, the Euclidean approximation gets more adn more accurate. However, this is somewhat trivial, as it is true for any manifold, including de Sitter space. Graphing $\alpha$ values against the length of the path where $x \in [0, 3]$ allows some relationships to be seen more clearly.
+\[
+\includegraphics[scale=0.25]{desitterlength.png}
+\]
+This shows visually the connection between $\alpha$ and how the path is condensed or stretched. When $\alpha$ is below $3$, the path is shorter than it would be in flat space, while when $\alpha$ is above $3$, it is longer. For $\alpha=3$, the path length asymptotically diverges.
+
 \subsubsection{anti-de Sitter Space}
+Anti-de Sitter space has a similar $f(r)$ expression to de Sitter space: $f(r)=1+\frac{r^2}{\alpha^2}$. Again, the line $x+y=3GM$ will be considered. The path length is given by:
+\[
+\int_S \sqrt{\frac{1}{1+\frac{r^2}{\alpha^2}}
+(\frac{(2t-3GM)^2}{\Delta(t)})
++ \frac{9G^2M^2}{\Delta(t)}} dt
+\]
+As always, we shall graph the path length as a function of $x$ position. It yields:
+\[
+\includegraphics[scale=0.25]{antidesitterpathlength.png}
+\]
+Here, the rightmost curve (red), middle curve (blue), and leftmost curve (green) represent the path lengths when $\alpha$ is $1$, $10$, and $25$, respectively. Again, for path lengths, any value of $\alpha$ will be approximately Euclidean, as anti-de Sitter space is a manifold. Plotting the change in the path length as $\alpha$ increases gives
+\[
+\includegraphics[scale=0.25]{antidesitterlength.png}
+\]
+This demonstrates clearly that anti-de Sitter space shrinks the path for any $\alpha$, but approaches the flat space value as $\alpha$ goes to infinity.
+
 
 \newpage
 \subsection{The Sphere and the Shell}
 \subsubsection{Standard Metric}
-\subsubsection{Schwartzschild Space}
-\subsubsection{de Sitter Space}
-\subsubsection{anti-de Sitter Space}
+The sphere's interior in spherical coordinates requires no paramterization, but its coordinates follow:
+\[
+r \in [0, R], \theta \in [0, \pi), \phi \in [0, 2\pi)
+\]
+The metric is, of course
+\[
+ds^2 = \frac{1}{f(r)} dr \otimes dr + r^2 d\Omega_2 \otimes d\Omega_2
+\]
+Finding the determinant, taking the square root, and combining everything into the n-volume formula yields:
+\[
+\int_0^{2\pi}\int_0^\pi\int_0^R \frac{r^2 sin\theta}{\sqrt{f(r)}} dr \wedge d\theta \wedge d\phi
+\]
+Switching the order of integration twice introduces two negative signs, which "cancel out", thereby giving
+\[
+\int_0^R\int_0^{2\pi}\int_0^\pi \frac{r^2 sin\theta}{\sqrt{f(r)}} d\theta \wedge d\phi \wedge dr
+= 4 \pi \int_0^R \frac{r^2}{\sqrt{f(r)}} dr
+\]
+Which is as simplified as can be withing specifying a particular space.
 
-\newpage
-\subsection{The Torus}
-\subsubsection{Standard Metric}
+The surface of the sphere, however, has no variation in the radius, and so its pulled-back metric is given by:
+\[
+ds^2 = r^2 d\Omega_2 \otimes d\Omega_2
+\]
+This has no dependence on $f(r)$, and so any space described by a standard metric will find the same value for the surface area of a sphere of any given radius.
+
 \subsubsection{Schwartzschild Space}
+For Schwartzschild Space, the volume of the sphere is given by
+\[
+4 \pi \int_0^R \frac{r^2}{\sqrt{1 - \frac{2GM}{r}}} dr
+\]
+However, the coordinate singularity at $r=2GM$ means that any manifold which contains that sphere will have a volume which asymptotically approaches infinity. Therefore, a sphere cannot be analyzed, but a shell can. The volume of this shell will be given by
+\[
+4 \pi \int_{R_L}^{R_G} \frac{r^2}{\sqrt{1 - \frac{2GM}{r}}} dr
+\]
+Here, $R_L$ is the lesser radius, and $R_G$ the greater radius. Taking the lesser radius to be $3GM$ and graphing the volume as a function of the greater radius yields:
+\[
+\includegraphics[scale=0.25]{schwartzschildsphere.png}
+\]
+The left curve (red) is the shell's volume in Schwartzschild space, graphed against the volume in flat space (dashed curve). As with the path length example, the Schwartzschild metric appears to stretch space.
+
 \subsubsection{de Sitter Space}
+The sphere volume in de Sitter space is instead
+\[
+4 \pi \int_0^R \frac{r^2}{\sqrt{1-\frac{r^2}{\alpha^2}}} dr
+\]
+There is no coordinate singularity in de Sitter space, and so the sphere can be safely considered, without needing to result to the shell. Plotting the volume as a function of the radius gives:
+\[
+\includegraphics[scale=0.25]{desittersphere.png}
+\]
+The leftmost curve (red), middle curve (blue), and rightmost curve (green) represent the volume as a function of radius in de Sitter spaces with $\alpha$ set to $1$, $5$, and $10$, respectively. The maximum radius cutoffs correspond to boundaries of the space.
+
+The volume as a function of $\alpha$ value is
+\[
+\includegraphics[scale=0.25]{desittersphere2.png}
+\]
+
+The bottom (purple), middle (red) and top (blue) curves correspond to spheres of radius $0.5$, $1$, and $2$, respectively. The graph makes it clear that the radius must be at least the $\alpha$ value, or else the volume is undefined.
+
 \subsubsection{anti-de Sitter Space}
+Anti-de Sitter space has the sphere volume
+\[
+4 \pi \int_{R_L}^{R_G} \frac{r^2}{\sqrt{1 + \frac{2GM}{r}}} dr
+\]
+As always, graphs will provide key insight into the behaviour of the space. First, the volume as a function of the radius for various $\alpha$ values.
+\[
+\includegraphics[scale=0.25]{antidesittersphere.png}
+\]
+As was seen with the path lengths, Anti-de Sitter space appears to shrink space, as compared to Euclidean space. The volume of the unit sphere as a function of $\alpha$ is plotted as
+\[
+\includegraphics[scale=0.25]{antidesittersphere2.png}
+\]
+Clearly, the lower the $\alpha$ value, the more space shrinks, eventually compacting the volume of the unit sphere down to nothing. Likewise, as $\alpha$ increases in value, the space tends to Euclidean space.
 
 \newpage
 \subsection{The Cylinder}
 \subsubsection{Standard Metric}
+The parameterizing map for the surface of the cylinder (in spherical coordinates) is
+\[
+\mu(z, \Theta): (r, \theta, \phi) \rightarrow (\sqrt{R^2 + z^2}, \Theta, 0)
+\]
+Making the coordinate differentials:
+\[
+dr = \frac{z}{\sqrt{R^2+z^2}}dz, d\theta = d\Theta, d\phi = 0
+\]
+Therefore, the metric is
+\[
+ds^2 = \frac{1}{f(r)}\frac{R^2}{R^2+z^2} dz \otimes dz + (R^2 + z^2) d\Theta \otimes d\Theta
+\]
+The determinant of this metric, square-rooted, and plugged into the n-volume formula yields:
+\[
+\int_0^h\int_0^{2\pi} R\sqrt{\frac{1}{f(r)}}) dz \wedge d\Theta
+\]
+
 \subsubsection{Schwartzschild Space}
 \subsubsection{de Sitter Space}
 \subsubsection{anti-de Sitter Space}
@@ -494,27 +708,15 @@ Plugging these definitions into the formula whole, however, would result in a mo
 \subsubsection{anti-de Sitter Space}
 
 \newpage
-\subsection{The One-Sheeted Hyperboloid}
-\subsubsection{Standard Metric}
-\subsubsection{Schwartzschild Space}
-\subsubsection{de Sitter Space}
-\subsubsection{anti-de Sitter Space}
+\section{Results}
 
-\newpage
-\subsection{Kerr Space}
-\subsubsection{Path Length}
-\subsubsection{The Sphere}
-\subsubsection{The Torus}
-\subsubsection{The Cylinder}
-\subsubsection{The Cone}
-\subsubsection{The One-Sheeted Hyperboloid}
 
 \newpage
 \appendix
-\section{The Jacobian Alternative Formulation}
-
-
-\section{Deriving the Metric of the Hypersphere}
-
+\section{The Spaces Considered}
+\subsection{Euclidean Space}
+\subsection{Schwartzschild Space}
+\subsection{de Sitter Space}
+\subsection{Anti-de Sitter Space}
 
 \end{document}
